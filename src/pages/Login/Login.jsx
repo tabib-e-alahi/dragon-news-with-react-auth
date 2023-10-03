@@ -1,12 +1,14 @@
 // import PropTypes from 'prop-types';
 
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Navbar from "../Shared/Navbar/Navbar";
 import { useContext } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
 
 const Login = () => {
-  const { signIn } = useContext(AuthContext);
+  const {  signIn } = useContext(AuthContext);
+  const location = useLocation();
+  const navigate = useNavigate()
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -15,14 +17,18 @@ const Login = () => {
     const email = form.get("email");
     const password = form.get("password");
     console.log(form.get("email"));
-    
+
    /*  step-8.2*/
     signIn(email, password)
       .then((result) => {
         console.log(result.user);
+
+        navigate(location?.state ? location.state : '/')
       })
       .catch((error) => console.error(error));
   };
+
+  // console.log(user);
   return (
     <div>
       <Navbar></Navbar>
